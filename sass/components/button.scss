@@ -1,0 +1,30 @@
+.btn {
+    &:link,
+    &:visited {
+        text-decoration: none;
+        padding: 1rem 3rem;
+        display: inline-block;
+        font-size: 1.3rem;
+        border-radius: 10rem;
+        background-color: white;
+        color: inherit;
+
+        transition: transform .2s;
+    }
+
+    &:hover {
+        transform: translateY(-.4rem);
+    }
+
+    &:active {
+        transform: translateY(-.2rem);
+    }
+
+    &-container {
+        width: 40%;
+        margin: 3rem auto;
+        display: flex;
+        justify-content: space-around;
+        flex-wrap: wrap;
+    }
+}

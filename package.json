@@ -1,0 +1,22 @@
+{
+    "name": "sortvisualiser",
+    "version": "1.0.0",
+    "description": "Visualiser for sorting algorithms.",
+    "main": "index.js",
+    "scripts": {
+        "compile:sass": "node-sass sass/main.scss css/style.css -w"
+    },
+    "repository": {
+        "type": "git",
+        "url": "git+https://github.com/wilsonhou/sortVisualiser.git"
+    },
+    "author": "wilson hou",
+    "license": "ISC",
+    "bugs": {
+        "url": "https://github.com/wilsonhou/sortVisualiser/issues"
+    },
+    "homepage": "https://github.com/wilsonhou/sortVisualiser#readme",
+    "devDependencies": {
+        "node-sass": "^4.13.0"
+    }
+}

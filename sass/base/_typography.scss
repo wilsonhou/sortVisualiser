@@ -1,0 +1,45 @@
+body {
+    font-family: "Finger Paint", sans-serif;
+    font-weight: 400;
+    line-height: 1.7;
+    color: $color-primary;
+    padding: 3rem;
+}
+
+.header {
+    background-image: linear-gradient(to right, $color-secondary-light, $color-primary);
+    display: inline-block;
+    -webkit-background-clip: text;
+    color: transparent;
+    position: relative;
+
+    font-size: 6rem;
+    margin: 0 auto;
+
+    transition: transform .3s;
+
+    &:hover {
+        transform: scale(1.03) skewY(2deg) skewX(1deg);
+        &::after {
+            transform: translateY(1rem) skewY(-2deg) skewX(-1deg);
+            opacity: 1;
+        }
+    }
+
+    &::after {
+        content: 'by Wilson Hou';
+        color: white;
+        font-size: 1.5rem;
+        z-index: 100;
+        position: absolute;
+        top: 0;
+        left: 0;
+        height: 100%;
+        width: 100%;
+        display: flex;
+        justify-content: center;
+        align-items: flex-end;
+        transition: all .3s;
+        opacity: 0;
+    }
+}

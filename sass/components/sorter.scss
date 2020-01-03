@@ -1,0 +1,14 @@
+.sorter {
+    // border: 1px solid red;
+    margin: 0 auto;
+    width: 40vw;
+    height: 40vh;
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-end;
+}
+
+.sortItem {
+    background-color: $color-secondary;
+    display: inline-block;
+}

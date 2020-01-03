@@ -1,0 +1,99 @@
+*,
+*::after,
+*::before {
+  margin: 0;
+  padding: 0;
+  box-sizing: inherit; }
+
+html {
+  font-size: 62.5%; }
+
+body {
+  box-sizing: border-box; }
+
+body {
+  font-family: "Finger Paint", sans-serif;
+  font-weight: 400;
+  line-height: 1.7;
+  color: #0984e3;
+  padding: 3rem; }
+
+.header {
+  background-image: linear-gradient(to right, #81ecec, #0984e3);
+  display: inline-block;
+  -webkit-background-clip: text;
+  color: transparent;
+  position: relative;
+  font-size: 6rem;
+  margin: 0 auto;
+  transition: transform .3s; }
+  .header:hover {
+    transform: scale(1.03) skewY(2deg) skewX(1deg); }
+    .header:hover::after {
+      transform: translateY(1rem) skewY(-2deg) skewX(-1deg);
+      opacity: 1; }
+  .header::after {
+    content: 'by Wilson Hou';
+    color: white;
+    font-size: 1.5rem;
+    z-index: 100;
+    position: absolute;
+    top: 0;
+    left: 0;
+    height: 100%;
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: flex-end;
+    transition: all .3s;
+    opacity: 0; }
+
+.u-center-text {
+  text-align: center; }
+
+.u-margin-top-small {
+  margin-top: 1.5rem; }
+
+.u-margin-bottom-small {
+  margin-bottom: 1.5rem; }
+
+.u-margin-bottom-big {
+  margin-bottom: 8rem; }
+
+.sorter {
+  margin: 0 auto;
+  width: 40vw;
+  height: 40vh;
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-end; }
+
+.sortItem {
+  background-color: #00cec9;
+  display: inline-block; }
+
+.btn:link, .btn:visited {
+  text-decoration: none;
+  padding: 1rem 3rem;
+  display: inline-block;
+  font-size: 1.3rem;
+  border-radius: 10rem;
+  background-color: white;
+  color: inherit;
+  transition: transform .2s; }
+
+.btn:hover {
+  transform: translateY(-0.4rem); }
+
+.btn:active {
+  transform: translateY(-0.2rem); }
+
+.btn-container {
+  width: 40%;
+  margin: 3rem auto;
+  display: flex;
+  justify-content: space-around;
+  flex-wrap: wrap; }
+
+body {
+  background-color: #2d3436; }

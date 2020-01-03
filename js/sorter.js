@@ -1,11 +1,12 @@
 class Sorter {
-    constructor (root, nodeCount) {
+    constructor (root, nodeCount, maxNum = 50) {
         // setting links to DOM
         this.root = root;
         this.nodeCount = nodeCount;
+        this.maxNum = maxNum;
 
         // initialise nodes to display
-        this.nodesToDisplay = Array(this.nodeCount).fill(null).map(() => Math.floor(Math.random() * 50) + 1);
+        this.nodesToDisplay = Array(this.nodeCount).fill(null).map(() => Math.floor(Math.random() * this.maxNum) + 1);
 
         // binding methods to this
         this.render = this.render.bind(this);
@@ -21,13 +22,15 @@ class Sorter {
 
         // creating sorter DisplayElement to display
         this.sorterDisplayElement = document.createElement('div');
-        this.sorterDisplayElement.innerHTML = `
-        <h1>Hello World!</h1>
-        <p>This is where the sorter will be</p>
-        <ul>${this.nodesToDisplay.map((num) => "<li class='itemToSort'>" + num + '</li>').join('')}</ul>
-        <button id='bubbleButton'>Bubble Sort</button>
-        <button id='randomiseButton'>Fisher-Yates Shuffle</button>
-        `;
+        this.sorterDisplayElement.classList.add('sorter');
+        this.sorterDisplayElement.innerHTML = this.nodesToDisplay
+            .map(
+                (num) =>
+                    `<span style='height: ${num / this.maxNum * 100}%; width: ${1 /
+                        this.nodeCount *
+                        100}%' class="sortItem"></span>`
+            )
+            .join('');
 
         // display the sorter element
         this.root.appendChild(this.sorterDisplayElement);

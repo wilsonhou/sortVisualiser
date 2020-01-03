@@ -4,11 +4,23 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <link href="https://fonts.googleapis.com/css?family=Finger+Paint&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="css/style.css">
     <title>Sort Visualiser</title>
 </head>
 <body>
-    <div id="root"></div>
+    <div class='u-center-text u-margin-bottom-small'>
+        <h1 class='header'>Sort Me</h1>
+    </div>
+
+    <div id='root'></div>
+
+    <!-- TODO: make all buttons disabled after clicking -->
+    <div class="btn-container u-center-text u-margin-top-small">
+        <a href='#' id='bubbleButton' class='btn'>Bubble Sort</a>
+        <a href='#' id='randomiseButton' class='btn'>Fisher-Yates Shuffle</a>
+    </div>
+    
     
     <script src="js/sleep.js"></script>
     <script src="js/sorter.js"></script>
