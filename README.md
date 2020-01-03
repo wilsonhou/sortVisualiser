@@ -1,1 +1,1 @@
-Sorting Algorithm Visualiser built with Vanilla JS
+Sorting Algorithm Visualiser built with Vanilla JS and styled with SASS.
