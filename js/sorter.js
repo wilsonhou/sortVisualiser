@@ -10,6 +10,7 @@ class Sorter {
         // binding methods to this
         this.render = this.render.bind(this);
         this.bubbleSort = this.bubbleSort.bind(this);
+        this.randomise = this.randomise.bind(this);
 
         // render sorter on screen
         this.render();
@@ -24,13 +25,19 @@ class Sorter {
         <h1>Hello World!</h1>
         <p>This is where the sorter will be</p>
         <ul>${this.nodesToDisplay.map((num) => "<li class='itemToSort'>" + num + '</li>').join('')}</ul>
+        <button id='bubbleButton'>Bubble Sort</button>
+        <button id='randomiseButton'>Fisher-Yates Shuffle</button>
         `;
 
         // display the sorter element
         this.root.appendChild(this.sorterDisplayElement);
+
+        // adding listeners
+        document.querySelector('#bubbleButton').addEventListener('click', this.bubbleSort);
+        document.querySelector('#randomiseButton').addEventListener('click', this.randomise);
     }
     async bubbleSort () {
-        // sort nodesToDisplay with bubble sort method
+        /** sort nodesToDisplay with bubble sort method */
 
         // extract nodes to display from this
         const { nodesToDisplay } = this;
@@ -41,41 +48,35 @@ class Sorter {
             // this results in O(n**2)
             for (let j = 0; j < nodesToDisplay.length - i; j++) {
                 if (nodesToDisplay[j] > nodesToDisplay[j + 1]) {
-                    // ALL THE TIMEOUTS ARE THE SAME
-                    // THEYLL RUN AT THE SAME TIME
-                    // they'll swap at incorect times
-                    // is it because callback queue is only checked once ther is no code left?
-                    await sleep(() => {
-                        [
-                            nodesToDisplay[j],
-                            nodesToDisplay[j + 1]
-                        ] = [
-                            nodesToDisplay[j + 1],
-                            nodesToDisplay[j]
-                        ];
-                        this.render();
-                    });
+                    // wait for sleep promise to resolve in 50ms to swap, render, then continue
+                    [
+                        nodesToDisplay[j],
+                        nodesToDisplay[j + 1]
+                    ] = [
+                        nodesToDisplay[j + 1],
+                        nodesToDisplay[j]
+                    ];
+                    await sleep(this.render);
                 }
             }
         }
     }
-}
+    async randomise () {
+        // extract nodes to display from this
+        const { nodesToDisplay } = this;
 
-// // extract number from list item string and compare
-// if (
-//     nodesToDisplay[j + 1] &&
-//     nodesToDisplay[j].match(/\d+/g).reduce((acc, num) => (parseInt(num), 0)) >
-//     nodesToDisplay[j + 1].match(/\d+/g).reduce((acc, num) => (parseInt(num), 0))
-// ) {
-//     // if swap needed, set a timeout of 2 milliseconds and swap
-//     setTimeout(() => {
-//         [
-//             nodesToDisplay[j],
-//             nodesToDisplay[j + 1]
-//         ] = [
-//                 nodesToDisplay[j + 1],
-//                 nodesToDisplay[j]
-//             ];
-//         this.render();
-//     }, 200);
-// }
+        /** implemented Fisher-Yates Shuffle */
+        for (let i = this.nodesToDisplay.length - 1; i > 0; i--) {
+            const newIdx = Math.floor(Math.random() * i);
+            // TODO: refactor this code
+            [
+                nodesToDisplay[i],
+                nodesToDisplay[newIdx]
+            ] = [
+                nodesToDisplay[newIdx],
+                nodesToDisplay[i]
+            ];
+            await sleep(this.render, 5);
+        }
+    }
+}
