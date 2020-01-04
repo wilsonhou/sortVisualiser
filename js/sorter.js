@@ -26,11 +26,14 @@ class Sorter {
     }
     // add color functions (isCurrent, isSorted)
     render (isCurrent = () => false, isSorted = () => false) {
-        // clear root element
-        if (this.sorterDisplayElement) this.sorterDisplayElement.remove();
+        // create display element or clear root element
+        if (!this.sorterDisplayElement) {
+            this.sorterDisplayElement = document.createElement('div');
+        } else {
+            this.sorterDisplayElement.remove();
+        }
 
-        // creating sorter DisplayElement to display
-        this.sorterDisplayElement = document.createElement('div');
+        // filling sorter DisplayElement to display
         this.sorterDisplayElement.classList.add('sorter');
         this.sorterDisplayElement.innerHTML = this.nodesToDisplay
             .map(
@@ -74,7 +77,9 @@ class Sorter {
         }
         pauseThenShowComplete();
     }
-    async selectionSort () {}
+    async selectionSort () {
+        console.log("I'm selection sorting!");
+    }
     async pauseThenDisplay (ms = 10, ...args) {
         // pauses for ms then renders
         await sleep(this.render, ms, ...args);
