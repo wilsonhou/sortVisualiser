@@ -11,4 +11,12 @@
 .sortItem {
     background-color: $color-secondary;
     display: inline-block;
+
+    &-current {
+        background-color: $color-secondary-light;
+    }
+
+    &-sorted {
+        background-color: $color-primary;
+    }
 }

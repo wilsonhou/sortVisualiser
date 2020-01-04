@@ -8,15 +8,24 @@ class Sorter {
         // initialise nodes to display
         this.nodesToDisplay = Array(this.nodeCount).fill(null).map(() => Math.floor(Math.random() * this.maxNum) + 1);
 
-        // binding methods to this
+        // binding methods to this to set context
         this.render = this.render.bind(this);
         this.bubbleSort = this.bubbleSort.bind(this);
+        this.selectionSort = this.selectionSort.bind(this);
         this.randomise = this.randomise.bind(this);
+        this.pauseThenDisplay = this.pauseThenDisplay.bind(this);
+        this.pauseThenShowComplete = this.pauseThenShowComplete.bind(this);
 
         // render sorter on screen
         this.render();
+
+        // adding listeners
+        document.querySelector('#bubbleButton').addEventListener('click', this.bubbleSort);
+        document.querySelector('#randomiseButton').addEventListener('click', this.randomise);
+        document.querySelector('#selectionButton').addEventListener('click', this.selectionSort);
     }
-    render () {
+    // add color functions (isCurrent, isSorted)
+    render (isCurrent = () => false, isSorted = () => false) {
         // clear root element
         if (this.sorterDisplayElement) this.sorterDisplayElement.remove();
 
@@ -25,25 +34,24 @@ class Sorter {
         this.sorterDisplayElement.classList.add('sorter');
         this.sorterDisplayElement.innerHTML = this.nodesToDisplay
             .map(
-                (num) =>
+                (num, idx) =>
+                    // check and apply correct color classes
                     `<span style='height: ${num / this.maxNum * 100}%; width: ${1 /
                         this.nodeCount *
-                        100}%' class="sortItem"></span>`
+                        100}%' class="${'sortItem' +
+                        (isSorted(idx) ? ' sortItem-sorted' : '') +
+                        (!isSorted(idx) && isCurrent(idx) ? ' sortItem-current' : '')}"></span>`
             )
             .join('');
 
         // display the sorter element
         this.root.appendChild(this.sorterDisplayElement);
-
-        // adding listeners
-        document.querySelector('#bubbleButton').addEventListener('click', this.bubbleSort);
-        document.querySelector('#randomiseButton').addEventListener('click', this.randomise);
     }
     async bubbleSort () {
         /** sort nodesToDisplay with bubble sort method */
 
         // extract nodes to display from this
-        const { nodesToDisplay } = this;
+        const { nodesToDisplay, pauseThenDisplay, pauseThenShowComplete } = this;
 
         // iterate through the list to display n times, where n is length
         for (let i = 0; i < nodesToDisplay.length; i++) {
@@ -59,17 +67,33 @@ class Sorter {
                         nodesToDisplay[j + 1],
                         nodesToDisplay[j]
                     ];
-                    await sleep(this.render);
+                    // call pause then display with 2 callbacks used to display colors in render
+                    await pauseThenDisplay(10, (idx) => idx === j, (idx) => idx >= nodesToDisplay.length - i);
                 }
             }
         }
+        pauseThenShowComplete();
+    }
+    async selectionSort () {}
+    async pauseThenDisplay (ms = 10, ...args) {
+        // pauses for ms then renders
+        await sleep(this.render, ms, ...args);
+    }
+    async pauseThenShowComplete (ms = 10, ms2 = 400, ms3 = 700) {
+        const { pauseThenDisplay } = this;
+        // final render all completed
+        await pauseThenDisplay(ms, () => false, () => true);
+        // show all complete
+        await pauseThenDisplay(ms2, () => true, () => false);
+        // reset to original color
+        await pauseThenDisplay(ms3, () => false, () => false);
     }
     async randomise () {
         // extract nodes to display from this
-        const { nodesToDisplay } = this;
+        const { nodesToDisplay, pauseThenDisplay } = this;
 
         /** implemented Fisher-Yates Shuffle */
-        for (let i = this.nodesToDisplay.length - 1; i > 0; i--) {
+        for (let i = nodesToDisplay.length - 1; i > 0; i--) {
             const newIdx = Math.floor(Math.random() * i);
             // TODO: refactor this code
             [
@@ -79,7 +103,7 @@ class Sorter {
                 nodesToDisplay[newIdx],
                 nodesToDisplay[i]
             ];
-            await sleep(this.render, 5);
+            await pauseThenDisplay(5);
         }
     }
 }

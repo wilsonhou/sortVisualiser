@@ -71,6 +71,10 @@ body {
 .sortItem {
   background-color: #00cec9;
   display: inline-block; }
+  .sortItem-current {
+    background-color: #81ecec; }
+  .sortItem-sorted {
+    background-color: #0984e3; }
 
 .btn:link, .btn:visited {
   text-decoration: none;
