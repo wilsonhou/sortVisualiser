@@ -12,6 +12,7 @@ class Sorter {
         this.render = this.render.bind(this);
         this.bubbleSort = this.bubbleSort.bind(this);
         this.selectionSort = this.selectionSort.bind(this);
+        this.quickSort = this.quickSort.bind(this);
         this.randomise = this.randomise.bind(this);
         this.pauseThenDisplay = this.pauseThenDisplay.bind(this);
         this.pauseThenShowComplete = this.pauseThenShowComplete.bind(this);
@@ -56,10 +57,14 @@ class Sorter {
         // extract nodes to display from this
         const { nodesToDisplay, pauseThenDisplay, pauseThenShowComplete } = this;
 
+        // var to check if array is already sorted
+        let isAlreadySorted;
+
         // iterate through the list to display n times, where n is length
         for (let i = 0; i < nodesToDisplay.length; i++) {
             // within each of n iterations, iterate through list n - i times, as i elements are in place
             // this results in O(n**2)
+            isAlreadySorted = true;
             for (let j = 0; j < nodesToDisplay.length - i; j++) {
                 if (nodesToDisplay[j] > nodesToDisplay[j + 1]) {
                     // swap nodes if values are in incorrect order
@@ -70,10 +75,12 @@ class Sorter {
                         nodesToDisplay[j + 1],
                         nodesToDisplay[j]
                     ];
+                    isAlreadySorted = false;
                 }
                 // call pause then display with 2 callbacks used to display colors in render
                 await pauseThenDisplay(10, (idx) => idx === j, (idx) => idx >= nodesToDisplay.length - i);
             }
+            if (isAlreadySorted) break;
         }
         pauseThenShowComplete();
     }
@@ -110,6 +117,10 @@ class Sorter {
 
         pauseThenShowComplete();
     }
+    async quickSort () {
+        console.log("I'm quick sorting!");
+    }
+    // utility funtions
     async pauseThenDisplay (ms = 10, ...args) {
         // pauses for ms then renders
         await sleep(this.render, ms, ...args);
