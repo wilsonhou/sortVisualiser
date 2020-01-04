@@ -62,7 +62,7 @@ class Sorter {
             // this results in O(n**2)
             for (let j = 0; j < nodesToDisplay.length - i; j++) {
                 if (nodesToDisplay[j] > nodesToDisplay[j + 1]) {
-                    // wait for sleep promise to resolve in 50ms to swap, render, then continue
+                    // swap nodes if values are in incorrect order
                     [
                         nodesToDisplay[j],
                         nodesToDisplay[j + 1]
@@ -70,15 +70,45 @@ class Sorter {
                         nodesToDisplay[j + 1],
                         nodesToDisplay[j]
                     ];
-                    // call pause then display with 2 callbacks used to display colors in render
-                    await pauseThenDisplay(10, (idx) => idx === j, (idx) => idx >= nodesToDisplay.length - i);
                 }
+                // call pause then display with 2 callbacks used to display colors in render
+                await pauseThenDisplay(10, (idx) => idx === j, (idx) => idx >= nodesToDisplay.length - i);
             }
         }
         pauseThenShowComplete();
     }
     async selectionSort () {
-        console.log("I'm selection sorting!");
+        // quadratic sorting algorithm with O(n**2)
+
+        const { nodesToDisplay, pauseThenDisplay, pauseThenShowComplete } = this;
+
+        let minimum, minIdx;
+        // TODO: refactor stop condition!
+        for (let i = 0; i < nodesToDisplay.length; i++) {
+            // initialise minimum to the first number in the iteration cycle
+            minimum = nodesToDisplay[i];
+            // iterate over the array and find the minimum value
+            for (let j = i; j < nodesToDisplay.length; j++) {
+                // replace minimum with the smallest value in that iteration cycle
+                if (nodesToDisplay[j] < minimum) {
+                    minimum = nodesToDisplay[j];
+                    minIdx = j;
+                }
+                await pauseThenDisplay(10, (idx) => idx === j, (idx) => idx < i);
+            }
+            // swap minimum with current place in loop if not already in correct place
+            if (minimum !== nodesToDisplay[i]) {
+                [
+                    nodesToDisplay[minIdx],
+                    nodesToDisplay[i]
+                ] = [
+                    nodesToDisplay[i],
+                    nodesToDisplay[minIdx]
+                ];
+            }
+        }
+
+        pauseThenShowComplete();
     }
     async pauseThenDisplay (ms = 10, ...args) {
         // pauses for ms then renders
