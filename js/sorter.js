@@ -126,13 +126,16 @@ class Sorter {
         if (start >= end) return;
 
         // Pick last element as pivot point
+        // TODO: refactor to middle pivot
         let pivot = this.nodesToDisplay[end];
 
-        // iterate forwards and backwards through array to find left and right, then swap
+        // pIdx tracks where the next swap will occur
         let pIdx = start;
         for (let i = start; i < end; i++) {
+            // if current number is less than the pivot
             if (this.nodesToDisplay[i] <= pivot) {
                 // TODO: refactor into swap function
+                // then swap the current number with the pIdx
                 [
                     this.nodesToDisplay[i],
                     this.nodesToDisplay[pIdx]
@@ -140,13 +143,14 @@ class Sorter {
                     this.nodesToDisplay[pIdx],
                     this.nodesToDisplay[i]
                 ];
+                // increment the pIdx to the next location
                 pIdx++;
             }
             await this.pauseThenDisplay(10, (idx) => idx === i);
         }
 
-        // pivot is the largest if no swaps have occurred
-        let isPivotLargest = pIdx === 0;
+        // pivot is the largest if pIdx === end, i.e a swap has occured EVERY SINGLE TIME (since swaps occur when num is less than pivot)
+        let isPivotLargest = pIdx === end;
 
         // swap pivot to correct position if it is not the largest
         if (!isPivotLargest) {
