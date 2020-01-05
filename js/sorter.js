@@ -121,23 +121,16 @@ class Sorter {
         pauseThenShowComplete();
     }
     async quickSort (start = 0, end = this.nodesToDisplay.length - 1) {
+        // TODO: FIX EDGE CASE AT BEGINNING OF ARRAY
         // return if arr is of length 1 (base case)
         if (start >= end) return;
 
-        // randomly pick a pivot point and swap it to the end of the subarray
-        let pivotIdx = Math.floor(Math.random() * (end + 1));
-        [
-            this.nodesToDisplay[pivotIdx],
-            this.nodesToDisplay[end]
-        ] = [
-            this.nodesToDisplay[end],
-            this.nodesToDisplay[pivotIdx]
-        ];
+        // Pick last element as pivot point
         let pivot = this.nodesToDisplay[end];
 
         // iterate forwards and backwards through array to find left and right, then swap
         let pIdx = start;
-        for (let i = start; i < end - 1; i++) {
+        for (let i = start; i < end; i++) {
             if (this.nodesToDisplay[i] <= pivot) {
                 // TODO: refactor into swap function
                 [
@@ -148,15 +141,15 @@ class Sorter {
                     this.nodesToDisplay[i]
                 ];
                 pIdx++;
-                // this.pauseThenDisplay()                             ;
             }
+            await this.pauseThenDisplay(10, (idx) => idx === i);
         }
 
-        // swap pIdx with end to place pivot in correct place
-        // TODO: THIS IS CAUSING AN ISSUE, FIX (swapping at incorrect times
-        // if any swap has occured, correct pivot position
-        // EDGE CASE: pivot is the minimum, and no swaps occured
-        if (pIdx !== 0) {
+        // pivot is the largest if no swaps have occurred
+        let isPivotLargest = pIdx === 0;
+
+        // swap pivot to correct position if it is not the largest
+        if (!isPivotLargest) {
             [
                 this.nodesToDisplay[pIdx],
                 this.nodesToDisplay[end]

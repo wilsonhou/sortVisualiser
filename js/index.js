@@ -1,3 +1,3 @@
 const documentRoot = document.querySelector('#root');
 
-const mySorter = new Sorter(documentRoot, 10);
+const mySorter = new Sorter(documentRoot, 60);
