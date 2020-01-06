@@ -16,6 +16,7 @@ class Sorter {
         this.randomise = this.randomise.bind(this);
         this.pauseThenDisplay = this.pauseThenDisplay.bind(this);
         this.pauseThenShowComplete = this.pauseThenShowComplete.bind(this);
+        this.swapNodes = this.swapNodes.bind(this);
 
         // render sorter on screen
         this.render();
@@ -58,7 +59,7 @@ class Sorter {
         /** sort nodesToDisplay with bubble sort method */
 
         // extract nodes to display from this
-        const { nodesToDisplay, pauseThenDisplay, pauseThenShowComplete } = this;
+        const { nodesToDisplay, pauseThenDisplay, pauseThenShowComplete, swapNodes } = this;
 
         // var to check if array is already sorted
         let isAlreadySorted;
@@ -71,13 +72,7 @@ class Sorter {
             for (let j = 0; j < nodesToDisplay.length - i; j++) {
                 if (nodesToDisplay[j] > nodesToDisplay[j + 1]) {
                     // swap nodes if values are in incorrect order
-                    [
-                        nodesToDisplay[j],
-                        nodesToDisplay[j + 1]
-                    ] = [
-                        nodesToDisplay[j + 1],
-                        nodesToDisplay[j]
-                    ];
+                    swapNodes(j, j + 1);
                     isAlreadySorted = false;
                 }
                 // call pause then display with 2 callbacks used to display colors in render
@@ -90,7 +85,7 @@ class Sorter {
     async selectionSort () {
         // quadratic sorting algorithm with O(n**2)
 
-        const { nodesToDisplay, pauseThenDisplay, pauseThenShowComplete } = this;
+        const { nodesToDisplay, pauseThenDisplay, pauseThenShowComplete, swapNodes } = this;
 
         let minimum, minIdx;
         // TODO: refactor stop condition!
@@ -108,13 +103,7 @@ class Sorter {
             }
             // swap minimum with current place in loop if not already in correct place
             if (minimum !== nodesToDisplay[i]) {
-                [
-                    nodesToDisplay[minIdx],
-                    nodesToDisplay[i]
-                ] = [
-                    nodesToDisplay[i],
-                    nodesToDisplay[minIdx]
-                ];
+                swapNodes(i, minIdx);
             }
         }
 
@@ -134,34 +123,18 @@ class Sorter {
         for (let i = start; i < end; i++) {
             // if current number is less than the pivot
             if (this.nodesToDisplay[i] <= pivot) {
-                // TODO: refactor into swap function
                 // then swap the current number with the pIdx
-                [
-                    this.nodesToDisplay[i],
-                    this.nodesToDisplay[pIdx]
-                ] = [
-                    this.nodesToDisplay[pIdx],
-                    this.nodesToDisplay[i]
-                ];
+                this.swapNodes(i, pIdx);
                 // increment the pIdx to the next location
                 pIdx++;
             }
             await this.pauseThenDisplay(10, (idx) => idx === i);
         }
 
-        // pivot is the largest if pIdx === end, i.e a swap has occured EVERY SINGLE TIME (since swaps occur when num is less than pivot)
-        let isPivotLargest = pIdx === end;
+        // // swap pivot to correct position
+        this.swapNodes(pIdx, end);
 
-        // swap pivot to correct position if it is not the largest
-        if (!isPivotLargest) {
-            [
-                this.nodesToDisplay[pIdx],
-                this.nodesToDisplay[end]
-            ] = [
-                this.nodesToDisplay[end],
-                this.nodesToDisplay[pIdx]
-            ];
-        }
+        // await this.pauseThenDisplay(10, (idx) => idx === i, (idx) => idx === pIdx);
 
         // call quick sort on left side, call quick sort on right side, then merge with concat
         await this.quickSort(start, pIdx - 1);
@@ -187,20 +160,23 @@ class Sorter {
     }
     async randomise () {
         // extract nodes to display from this
-        const { nodesToDisplay, pauseThenDisplay } = this;
+        const { nodesToDisplay, pauseThenDisplay, swapNodes } = this;
 
         /** implemented Fisher-Yates Shuffle */
         for (let i = nodesToDisplay.length - 1; i > 0; i--) {
             const newIdx = Math.floor(Math.random() * i);
-            // TODO: refactor this code
-            [
-                nodesToDisplay[i],
-                nodesToDisplay[newIdx]
-            ] = [
-                nodesToDisplay[newIdx],
-                nodesToDisplay[i]
-            ];
+            // swap the nodes
+            swapNodes(i, newIdx);
             await pauseThenDisplay(5);
         }
+    }
+    swapNodes (firstIdx, secondIdx) {
+        [
+            this.nodesToDisplay[firstIdx],
+            this.nodesToDisplay[secondIdx]
+        ] = [
+            this.nodesToDisplay[secondIdx],
+            this.nodesToDisplay[firstIdx]
+        ];
     }
 }
