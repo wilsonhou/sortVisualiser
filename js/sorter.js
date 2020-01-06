@@ -1,6 +1,9 @@
 import sleep from './utils/sleep.js';
 import swap from './utils/swap.js';
-import bubbleSort from './sorts/bubbleSort.js';
+import moduleRandomise from './sorts/randomise.js';
+import moduleBubbleSort from './sorts/bubbleSort.js';
+import moduleSelectionSort from './sorts/selectionSort.js';
+import moduleQuickSort from './sorts/quickSort.js';
 
 export default class Sorter {
     constructor (root, nodeCount, maxNum = 50) {
@@ -16,12 +19,10 @@ export default class Sorter {
         this.render();
 
         // adding listeners
-        document.querySelector('#bubbleButton').addEventListener('click', this.bubble);
+        document.querySelector('#bubbleButton').addEventListener('click', this.bubbleSort);
         document.querySelector('#randomiseButton').addEventListener('click', this.randomise);
+        document.querySelector('#quickButton').addEventListener('click', this.quickSort);
         document.querySelector('#selectionButton').addEventListener('click', this.selectionSort);
-        document.querySelector('#quickButton').addEventListener('click', () => {
-            this.quickSort();
-        });
     }
     // add color functions (isCurrent, isSorted)
     render = (isCurrent = () => false, isSorted = () => false) => {
@@ -49,73 +50,21 @@ export default class Sorter {
         // display the sorter element
         this.root.appendChild(this.sorterDisplayElement);
     };
-    bubble = async () => {
-        /** sort nodesToDisplay with bubble sort method */
-        bubbleSort(this.nodesToDisplay, swap, this.pauseThenDisplay, this.pauseThenShowComplete);
+    bubbleSort = async () => {
+        /** swapping sorting algorithm with O(n**2) */
+        moduleBubbleSort(this.nodesToDisplay, swap, this.pauseThenDisplay, this.pauseThenShowComplete);
     };
     selectionSort = async () => {
-        // quadratic sorting algorithm with O(n**2)
-
-        const { nodesToDisplay, pauseThenDisplay, pauseThenShowComplete, swapNodes } = this;
-
-        let minimum, minIdx;
-        // TODO: refactor stop condition!
-        for (let i = 0; i < nodesToDisplay.length; i++) {
-            // initialise minimum to the first number in the iteration cycle
-            minimum = nodesToDisplay[i];
-            // iterate over the array and find the minimum value
-            for (let j = i; j < nodesToDisplay.length; j++) {
-                // replace minimum with the smallest value in that iteration cycle
-                if (nodesToDisplay[j] < minimum) {
-                    minimum = nodesToDisplay[j];
-                    minIdx = j;
-                }
-                await pauseThenDisplay(10, (idx) => idx === j, (idx) => idx < i);
-            }
-            // swap minimum with current place in loop if not already in correct place
-            if (minimum !== nodesToDisplay[i]) {
-                swapNodes(i, minIdx);
-            }
-        }
-
-        pauseThenShowComplete();
+        /** quadratic sorting algorithm with O(n**2) */
+        moduleSelectionSort(this.nodesToDisplay, swap, this.pauseThenDisplay, this.pauseThenShowComplete);
     };
-    quickSort = async (start = 0, end = this.nodesToDisplay.length - 1) => {
-        // TODO: FIX EDGE CASE AT BEGINNING OF ARRAY
-        // return if arr is of length 1 (base case)
-        if (start >= end) return;
+    quickSort = async () => {
+        await moduleQuickSort(this.nodesToDisplay, swap, this.pauseThenDisplay);
 
-        // Pick last element as pivot point
-        // TODO: refactor to middle pivot
-        let pivot = this.nodesToDisplay[end];
-
-        // pIdx tracks where the next swap will occur
-        let pIdx = start;
-        for (let i = start; i < end; i++) {
-            // if current number is less than the pivot
-            if (this.nodesToDisplay[i] <= pivot) {
-                // then swap the current number with the pIdx
-                this.swapNodes(i, pIdx);
-                // increment the pIdx to the next location
-                pIdx++;
-            }
-            await this.pauseThenDisplay(10, (idx) => idx === i);
-        }
-
-        // // swap pivot to correct position
-        this.swapNodes(pIdx, end);
-
-        // await this.pauseThenDisplay(10, (idx) => idx === i, (idx) => idx === pIdx);
-
-        // call quick sort on left side, call quick sort on right side, then merge with concat
-        await this.quickSort(start, pIdx - 1);
-        await this.quickSort(pIdx + 1, end);
-
+        // render final
         this.pauseThenShowComplete();
-
-        // TODO: await quickSort! it's a promise, remember that
     };
-    // utility funtions
+    /** utility funtions */
     pauseThenDisplay = async (ms = 10, ...args) => {
         // pauses for ms then renders
         await sleep(this.render, ms, ...args);
@@ -131,23 +80,6 @@ export default class Sorter {
     };
     randomise = async () => {
         // extract nodes to display from this
-        const { nodesToDisplay, pauseThenDisplay, swapNodes } = this;
-
-        /** implemented Fisher-Yates Shuffle */
-        for (let i = nodesToDisplay.length - 1; i > 0; i--) {
-            const newIdx = Math.floor(Math.random() * i);
-            // swap the nodes
-            swapNodes(i, newIdx);
-            await pauseThenDisplay(5);
-        }
-    };
-    swapNodes = (firstIdx, secondIdx) => {
-        [
-            this.nodesToDisplay[firstIdx],
-            this.nodesToDisplay[secondIdx]
-        ] = [
-            this.nodesToDisplay[secondIdx],
-            this.nodesToDisplay[firstIdx]
-        ];
+        moduleRandomise(this.nodesToDisplay, swap, this.pauseThenDisplay);
     };
 }
