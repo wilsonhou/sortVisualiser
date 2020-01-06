@@ -27,4 +27,8 @@
         justify-content: space-around;
         flex-wrap: wrap;
     }
+
+    &--disabled {
+        background-color: grey;
+    }
 }

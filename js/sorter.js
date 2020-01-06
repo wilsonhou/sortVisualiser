@@ -6,11 +6,16 @@ import moduleSelectionSort from './sorts/selectionSort.js';
 import moduleQuickSort from './sorts/quickSort.js';
 
 export default class Sorter {
-    constructor (root, nodeCount, maxNum = 50) {
+    constructor (root, nodeCount, buttonsDisplayed, maxNum = 50) {
         // setting links to DOM
         this.root = root;
         this.nodeCount = nodeCount;
         this.maxNum = maxNum;
+        this.buttons = buttonsDisplayed;
+
+        // create custom event for buttons
+        this.sorting = new Event('sorting');
+        this.finishedSorting = new Event('finishedSorting');
 
         // initialise nodes to display
         this.nodesToDisplay = Array(this.nodeCount).fill(null).map(() => Math.floor(Math.random() * this.maxNum) + 1);
@@ -52,13 +57,16 @@ export default class Sorter {
     };
     bubbleSort = async () => {
         /** swapping sorting algorithm with O(n**2) */
+        this.dispatchSortingEvent();
         moduleBubbleSort(this.nodesToDisplay, swap, this.pauseThenDisplay, this.pauseThenShowComplete);
     };
     selectionSort = async () => {
         /** quadratic sorting algorithm with O(n**2) */
+        this.dispatchSortingEvent();
         moduleSelectionSort(this.nodesToDisplay, swap, this.pauseThenDisplay, this.pauseThenShowComplete);
     };
     quickSort = async () => {
+        this.dispatchSortingEvent();
         await moduleQuickSort(this.nodesToDisplay, swap, this.pauseThenDisplay);
 
         // render final
@@ -77,9 +85,21 @@ export default class Sorter {
         await pauseThenDisplay(ms2, () => true, () => false);
         // reset to original color
         await pauseThenDisplay(ms3);
+        this.dispatchFinishedSortingEvent();
     };
     randomise = async () => {
+        this.dispatchSortingEvent();
         // extract nodes to display from this
         moduleRandomise(this.nodesToDisplay, swap, this.pauseThenDisplay);
     };
+    dispatchSortingEvent () {
+        for (let button of this.buttons) {
+            button.dispatchEvent(this.sorting);
+        }
+    }
+    dispatchFinishedSortingEvent () {
+        for (let button of this.buttons) {
+            button.dispatchEvent(this.finishedSorting);
+        }
+    }
 }

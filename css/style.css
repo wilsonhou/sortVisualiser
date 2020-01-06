@@ -99,5 +99,8 @@ body {
   justify-content: space-around;
   flex-wrap: wrap; }
 
+.btn--disabled {
+  background-color: grey; }
+
 body {
   background-color: #2d3436; }
