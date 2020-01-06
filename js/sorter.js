@@ -91,6 +91,8 @@ export default class Sorter {
         this.dispatchSortingEvent();
         // extract nodes to display from this
         moduleRandomise(this.nodesToDisplay, swap, this.pauseThenDisplay);
+
+        this.pauseThenShowComplete();
     };
     dispatchSortingEvent () {
         for (let button of this.buttons) {
