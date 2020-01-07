@@ -13,7 +13,7 @@ const selectionSort = async (listToSort, swap, actionEachTick, actionWhenFinishe
                 minimum = listToSort[j];
                 minIdx = j;
             }
-            if (actionEachTick) await actionEachTick(10, (idx) => idx === j, (idx) => idx < i);
+            if (actionEachTick) await actionEachTick(10, (idx) => idx === j, (idx) => idx === i, (idx) => idx < i);
         }
         // swap minimum with current place in loop if not already in correct place
         if (minimum !== listToSort[i]) {

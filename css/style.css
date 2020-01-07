@@ -74,6 +74,8 @@ body {
   margin: 0 .1rem; }
   .sortItem-current {
     background-color: #ff7675; }
+  .sortItem-target {
+    background-color: #ffeaa7; }
   .sortItem-sorted {
     background-color: #55efc4; }
 

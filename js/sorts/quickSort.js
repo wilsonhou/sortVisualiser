@@ -20,7 +20,8 @@ const quickSort = async (listToSort, swap, actionEachTick, start = 0, end = list
             // increment the pIdx to the next location
             pIdx++;
         }
-        if (actionEachTick) await actionEachTick(10, (idx) => idx === i, (idx) => pivots.includes(idx));
+        if (actionEachTick)
+            await actionEachTick(10, (idx) => idx === i, (idx) => idx === pIdx, (idx) => pivots.includes(idx));
     }
 
     // // swap pivot to correct position

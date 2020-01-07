@@ -15,7 +15,13 @@ const bubbleSort = async (listToSort, swapFunction, actionEachTick, actionWhenFi
                 isAlreadySorted = false;
             }
             // if actionEachTick exists, call it
-            if (actionEachTick) await actionEachTick(10, (idx) => idx === j, (idx) => idx >= listToSort.length - i);
+            if (actionEachTick)
+                await actionEachTick(
+                    10,
+                    (idx) => idx === j,
+                    (idx) => idx === j + 1,
+                    (idx) => idx >= listToSort.length - i
+                );
         }
         if (isAlreadySorted) break;
     }

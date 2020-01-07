@@ -18,7 +18,9 @@
     &-current {
         background-color: $color-sorter-current;
     }
-
+    &-target {
+        background-color: $color-sorter-target;
+    }
     &-sorted {
         background-color: $color-sorter-sorted;
     }

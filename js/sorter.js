@@ -30,7 +30,7 @@ export default class Sorter {
         document.querySelector('#selectionButton').addEventListener('click', this.selectionSort);
     }
     // add color functions (isCurrent, isSorted)
-    render = (isCurrent = () => false, isSorted = () => false) => {
+    render = (isCurrent = () => false, isTarget = () => false, isSorted = () => false) => {
         if (this.cancelled) return;
 
         // create display element or clear root element
@@ -50,7 +50,8 @@ export default class Sorter {
                         this.nodeCount *
                         100}%' class="${'sortItem' +
                         (isSorted(idx) ? ' sortItem-sorted' : '') +
-                        (!isSorted(idx) && isCurrent(idx) ? ' sortItem-current' : '')}"></span>`
+                        (isTarget(idx) ? ' sortItem-target' : '') +
+                        (!isSorted(idx) && !isTarget(idx) && isCurrent(idx) ? ' sortItem-current' : '')}"></span>`
             )
             .join('');
 
@@ -82,7 +83,7 @@ export default class Sorter {
     pauseThenShowComplete = async (ms = 10 /**, ms2 = 700 */) => {
         const { pauseThenDisplay } = this;
         // final render all completed
-        await pauseThenDisplay(ms, () => false, () => true);
+        await pauseThenDisplay(ms, () => false, () => false, () => true);
         // show all complete
         // await pauseThenDisplay(ms2);
         this.dispatchFinishedSortingEvent();
