@@ -2,17 +2,23 @@ import Sorter from './sorter.js';
 
 const documentRoot = document.querySelector('#root');
 
-const allButtons = document.querySelectorAll('.btn');
-
 const buttonContainer = document.querySelector('.btn-container');
 
-const mySorter = new Sorter(documentRoot, 60, allButtons);
+const allButtons = buttonContainer.querySelectorAll('.btn');
+
+let mySorter = new Sorter(documentRoot, 60, allButtons);
 
 allButtons.forEach((button) => {
     button.addEventListener('sorting', () => {
-        button.remove();
+        console.log('I HEAR YOU!');
+        button.classList.add('btn--disabled');
+        button.setAttribute('disabled', 'true');
     });
     button.addEventListener('finishedSorting', () => {
-        buttonContainer.appendChild(button);
+        button.classList.remove('btn--disabled');
+        button.removeAttribute('disabled');
     });
 });
+
+// // TODO: fix cancel button
+// cancelButton.addEventListener('click', mySorter.dispatchFinishedSortingEvent);

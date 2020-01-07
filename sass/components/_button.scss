@@ -1,0 +1,51 @@
+.btn {
+    text-decoration: none;
+    display: inline-block;
+    font-family: inherit;
+    border-style: none;
+
+    padding: 1rem 3rem;
+    font-size: 1.6rem;
+    width: 100%;
+    height: 25%;
+
+    cursor: pointer;
+    // border-radius: 10rem;
+
+    background-color: #e17055;
+    color: white;
+
+    transition: transform .2s;
+
+    &:hover:not([disabled]) {
+        background-color: darken(#e17055, 10%);
+    }
+
+    // &:active {
+    //     transform: translateY(-.2rem);
+    // }
+
+    &--disabled {
+        background-color: #636e72;
+        cursor: not-allowed;
+    }
+
+    &:last-child {
+        background-color: #f0932b;
+        &:hover:not([disabled]) {
+            background-color: darken(#f0932b, 10%);
+        }
+        &.btn--disabled {
+            background-color: #636e72;
+            cursor: not-allowed;
+        }
+    }
+    &#cancelButton {
+        height: 12%;
+        background-color: #6ab04c;
+
+        &:hover:not([disabled]) {
+            background-color: darken(#6ab04c, 10%);
+        }
+    }
+}

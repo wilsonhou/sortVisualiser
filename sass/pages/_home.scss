@@ -1,3 +1,17 @@
 body {
     background-color: $color-black;
 }
+
+#root {
+    margin: 0 auto;
+    transition: animation .3s;
+    animation: pop .5s;
+}
+
+.main-text-display {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+}

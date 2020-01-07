@@ -6,7 +6,7 @@ import moduleSelectionSort from './sorts/selectionSort.js';
 import moduleQuickSort from './sorts/quickSort.js';
 
 export default class Sorter {
-    constructor (root, nodeCount, buttonsDisplayed, maxNum = 50) {
+    constructor (root, nodeCount, buttonsDisplayed, maxNum = 60) {
         // setting links to DOM
         this.root = root;
         this.nodeCount = nodeCount;
@@ -31,6 +31,8 @@ export default class Sorter {
     }
     // add color functions (isCurrent, isSorted)
     render = (isCurrent = () => false, isSorted = () => false) => {
+        if (this.cancelled) return;
+
         // create display element or clear root element
         if (!this.sorterDisplayElement) {
             this.sorterDisplayElement = document.createElement('div');
@@ -77,31 +79,30 @@ export default class Sorter {
         // pauses for ms then renders
         await sleep(this.render, ms, ...args);
     };
-    pauseThenShowComplete = async (ms = 10, ms2 = 400, ms3 = 700) => {
+    pauseThenShowComplete = async (ms = 10 /**, ms2 = 700 */) => {
         const { pauseThenDisplay } = this;
         // final render all completed
         await pauseThenDisplay(ms, () => false, () => true);
         // show all complete
-        await pauseThenDisplay(ms2, () => true, () => false);
-        // reset to original color
-        await pauseThenDisplay(ms3);
+        // await pauseThenDisplay(ms2);
         this.dispatchFinishedSortingEvent();
     };
     randomise = async () => {
         this.dispatchSortingEvent();
         // extract nodes to display from this
-        moduleRandomise(this.nodesToDisplay, swap, this.pauseThenDisplay);
+        await moduleRandomise(this.nodesToDisplay, swap, this.pauseThenDisplay);
 
-        this.pauseThenShowComplete();
+        this.dispatchFinishedSortingEvent();
     };
-    dispatchSortingEvent () {
+    dispatchSortingEvent = () => {
+        console.log('IM SORTING!');
         for (let button of this.buttons) {
             button.dispatchEvent(this.sorting);
         }
-    }
-    dispatchFinishedSortingEvent () {
+    };
+    dispatchFinishedSortingEvent = () => {
         for (let button of this.buttons) {
             button.dispatchEvent(this.finishedSorting);
         }
-    }
+    };
 }
