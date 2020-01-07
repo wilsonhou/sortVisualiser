@@ -6,6 +6,7 @@ body {
     margin: 0 auto;
     transition: animation .3s;
     animation: pop .5s;
+    animation-delay: 1s;
 }
 
 .main-text-display {
@@ -14,4 +15,39 @@ body {
     justify-content: center;
     align-items: center;
     height: 100vh;
+}
+
+.header {
+    display: inline-block;
+    position: relative;
+    bottom: 3rem;
+    margin: 0 auto;
+
+    transition: all .3s;
+    animation: fadeInLeft .5s;
+    animation-delay: .5s;
+    animation-fill-mode: backwards;
+
+    &:hover {
+        transform: scale(1.03);
+
+        &::after {
+            transform: translateY(1rem);
+            opacity: 1;
+        }
+    }
+
+    &:after {
+        z-index: 100;
+        position: absolute;
+        top: 0;
+        left: 0;
+        height: 100%;
+        width: 100%;
+        display: flex;
+        justify-content: center;
+        align-items: flex-end;
+        transition: all .3s;
+        opacity: 0;
+    }
 }

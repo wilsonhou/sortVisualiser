@@ -6,7 +6,7 @@ import moduleSelectionSort from './sorts/selectionSort.js';
 import moduleQuickSort from './sorts/quickSort.js';
 
 export default class Sorter {
-    constructor (root, nodeCount, buttonsDisplayed, maxNum = 60) {
+    constructor (root, nodeCount, buttonsDisplayed, maxNum = 500) {
         // setting links to DOM
         this.root = root;
         this.nodeCount = nodeCount;
@@ -95,7 +95,6 @@ export default class Sorter {
         this.dispatchFinishedSortingEvent();
     };
     dispatchSortingEvent = () => {
-        console.log('IM SORTING!');
         for (let button of this.buttons) {
             button.dispatchEvent(this.sorting);
         }

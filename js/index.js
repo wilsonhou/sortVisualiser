@@ -10,7 +10,6 @@ let mySorter = new Sorter(documentRoot, 60, allButtons);
 
 allButtons.forEach((button) => {
     button.addEventListener('sorting', () => {
-        console.log('I HEAR YOU!');
         button.classList.add('btn--disabled');
         button.setAttribute('disabled', 'true');
     });

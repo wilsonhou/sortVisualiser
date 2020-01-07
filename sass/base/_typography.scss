@@ -2,47 +2,18 @@ body {
     font-family: "Open Sans", sans-serif;
     font-weight: 400;
     line-height: 1.7;
-    color: $color-primary;
 }
 
 .header {
     background-image: linear-gradient(to right, #ff7675, #d63031);
-    display: inline-block;
     -webkit-background-clip: text;
     color: white;
-    position: relative;
-    // padding-top: 0;
-    bottom: 3rem;
-
     font-size: 6rem;
     font-weight: 400;
-    margin: 0 auto;
-
-    transition: all .3s;
-
-    &:hover {
-        transform: scale(1.03);
-
-        &::after {
-            transform: translateY(1rem) skewY(-2deg) skewX(-1deg);
-            opacity: 1;
-        }
-    }
 
     &::after {
         content: 'by Wilson Hou';
         color: white;
         font-size: 1.5rem;
-        z-index: 100;
-        position: absolute;
-        top: 0;
-        left: 0;
-        height: 100%;
-        width: 100%;
-        display: flex;
-        justify-content: center;
-        align-items: flex-end;
-        transition: all .3s;
-        opacity: 0;
     }
 }
