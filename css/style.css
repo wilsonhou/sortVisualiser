@@ -69,12 +69,14 @@ body {
   align-items: flex-end; }
 
 .sortItem {
-  background-color: #00cec9;
-  display: inline-block; }
+  background-color: #a29bfe;
+  display: inline-block;
+  border-radius: .1rem .1rem 0 0;
+  margin: 0 .1rem; }
   .sortItem-current {
-    background-color: #81ecec; }
+    background-color: #ff7675; }
   .sortItem-sorted {
-    background-color: #0984e3; }
+    background-color: #55efc4; }
 
 .btn:link, .btn:visited {
   text-decoration: none;

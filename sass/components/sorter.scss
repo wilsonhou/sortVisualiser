@@ -9,14 +9,16 @@
 }
 
 .sortItem {
-    background-color: $color-secondary;
+    background-color: #a29bfe;
     display: inline-block;
+    border-radius: .1rem .1rem 0 0;
+    margin: 0 .1rem;
 
     &-current {
-        background-color: $color-secondary-light;
+        background-color: #ff7675;
     }
 
     &-sorted {
-        background-color: $color-primary;
+        background-color: #55efc4;
     }
 }
