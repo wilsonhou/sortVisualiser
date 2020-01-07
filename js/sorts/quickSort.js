@@ -2,8 +2,9 @@ const quickSort = async (listToSort, swap, actionEachTick, start = 0, end = list
     // return if arr is of length 1 (base case)
     if (start >= end) return;
 
-    // Pick last element as pivot point
-    // TODO: refactor to middle pivot
+    // pick random element as pivot and move to end of array
+    let pivotIdx = start + Math.floor(Math.random() * (end - start + 1));
+    listToSort.splice(end, 0, ...listToSort.splice(pivotIdx, 1));
     let pivot = listToSort[end];
 
     // pIdx tracks where the next swap will occur
