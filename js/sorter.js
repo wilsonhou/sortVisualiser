@@ -4,6 +4,7 @@ import moduleRandomise from './sorts/randomise.js';
 import moduleBubbleSort from './sorts/bubbleSort.js';
 import moduleSelectionSort from './sorts/selectionSort.js';
 import moduleQuickSort from './sorts/quickSort.js';
+import moduleHeapSort from './sorts/heapSort.js';
 
 export default class Sorter {
     constructor (root, nodeCount, buttonsDisplayed, maxNum = 500) {
@@ -27,6 +28,7 @@ export default class Sorter {
         document.querySelector('#bubbleButton').addEventListener('click', this.bubbleSort);
         document.querySelector('#randomiseButton').addEventListener('click', this.randomise);
         document.querySelector('#quickButton').addEventListener('click', this.quickSort);
+        document.querySelector('#heapButton').addEventListener('click', this.heapSort);
         document.querySelector('#selectionButton').addEventListener('click', this.selectionSort);
     }
     // add color functions (isCurrent, isSorted)
@@ -73,6 +75,12 @@ export default class Sorter {
         await moduleQuickSort(this.nodesToDisplay, swap, this.pauseThenDisplay);
 
         // render final
+        this.pauseThenShowComplete();
+    };
+    heapSort = async () => {
+        this.dispatchSortingEvent();
+        await moduleHeapSort(this.nodesToDisplay, swap, this.pauseThenDisplay);
+
         this.pauseThenShowComplete();
     };
     /** utility funtions */
